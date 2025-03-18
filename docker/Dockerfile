@@ -20,8 +20,8 @@
 # please contact with: [daniel.moranjimenez@telefonica.com]
 
 ARG NODE_VERSION=16
-ARG GITHUB_ACCOUNT=telefonicaid
-ARG GITHUB_REPOSITORY=iotagent-json
+ARG GITHUB_ACCOUNT=tiagolemos02
+ARG GITHUB_REPOSITORY=FIWARE-custom-agent
 ARG DOWNLOAD=latest
 ARG SOURCE_BRANCH=master
 
