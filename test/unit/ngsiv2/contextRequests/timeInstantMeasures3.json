@@ -1,0 +1,16 @@
+{
+    "id":"e0130101",
+    "type":"sensor",
+  "humidity":{
+    "type": "percent",
+     "value": "111222"
+  },
+  "pressure":{
+    "type": "Text",
+      "value": "20"
+  },
+  "TimeInstant":{
+    "type": "DateTime",
+    "value": "2020-02-22T22:22:22Z"
+  }
+}

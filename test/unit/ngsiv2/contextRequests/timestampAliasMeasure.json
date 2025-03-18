@@ -1,0 +1,16 @@
+{
+    "id":"Second MQTT Device",
+    "type":"AnMQTTDevice",
+  "humidity":{
+    "type":"degrees",
+    "value":"32"
+  },
+  "temperature":{
+    "type":"celsius",
+    "value":"87"
+  },
+  "TimeInstant":{
+    "type":"DateTime",
+    "value": "2007-03-11T12:18:05.000Z"
+  }
+}

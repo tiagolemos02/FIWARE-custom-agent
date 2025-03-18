@@ -1,0 +1,12 @@
+{
+    "id":"Second MQTT Device",
+    "type":"AnMQTTDevice",    
+  "PING_status": {
+    "type": "commandStatus",
+    "value": "DELIVERED"
+  },
+  "PING_info": {
+    "type": "commandResult",
+    "value": " "
+  }
+}

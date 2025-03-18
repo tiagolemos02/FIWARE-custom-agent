@@ -1,0 +1,8 @@
+{
+    "id":"Second MQTT Device",
+    "type":"AnMQTTDevice",    
+  "a":{
+    "type": "celsius",
+    "value": 23
+  }
+}

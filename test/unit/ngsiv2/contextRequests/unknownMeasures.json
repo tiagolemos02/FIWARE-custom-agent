@@ -1,0 +1,12 @@
+{
+    "id":"Second MQTT Device",
+    "type":"AnMQTTDevice",
+  "humidity":{
+    "type": "degrees",
+    "value": "32"   
+  },
+  "weight":{
+    "type": "Text",
+    "value": "87"    
+  }
+}

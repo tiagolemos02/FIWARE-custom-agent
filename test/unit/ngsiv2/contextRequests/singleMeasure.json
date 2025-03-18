@@ -1,0 +1,8 @@
+{
+    "id":"Second MQTT Device",
+    "type":"AnMQTTDevice",
+  "temperature":{
+    "type": "celsius",
+    "value": 87
+  }
+}

@@ -1,0 +1,327 @@
+3.7.0 (February 3rd, 2025)
+
+- Add: allow MQTT single array measures (#856)
+- Add: X-Processing-Time response header with processing time (in milliseconds) expended by current HTTP measure (iotagent-node-lib#1650)
+- Add: print also IOTA_CONFIG_RETRIEVAL, IOTA_DEFAULT_KEY, IOTA_DEFAULT_TRANSPORT env var values at iotagent startup
+- Fix: allow single array MQTT measures of 1 element handed like array, not single value (#856)
+- Fix: allow send multiple measures in MQTT to CB in a batch (POST /v2/op/update) and sorted by TimeInstant when possible, instead of using multiples single request (#825, iotagent-node-lib#1612) (reopened)
+- Fix: check endpoint expression when execute http command
+- Fix: use config.defaultTransport (from config.js or IOTA_DEFAULT_TRANSPORT env var) instead of magic 'HTTP' at provision device
+- Upgrade express from 4.20.0 to 4.21.2
+- Upgrade iotagent-node-lib dependency from 4.6.0 to 4.7.0
+
+3.6.0 (September 18th, 2024)
+
+- Upgrade body-parser dep from 1.20.0 to 1.20.3
+- Upgrade express dep from 4.19.2 to 4.20.0
+- Upgrade iotagent-node-lib dependency from 4.5.0 to 4.6.0
+
+3.5.0 (June 11th, 2024)
+
+- Fix: update device using previous device apikey to avoid error when apikey is updated (#833)
+- Fix: allow send multiple measures to CB in a batch (POST /v2/op/update) and sorted by TimeInstant when possible, instead of using multiples single request (#825, iotagent-node-lib#1612)
+- Fix: default express limit to 1Mb instead default 100Kb and allow change it throught a conf env var 'IOTA_EXPRESS_LIMIT' (#827)
+- Upgrade iotagent-node-lib dependency from 4.4.0 to 4.5.0
+
+3.4.0 (April 26th, 2024)
+
+- Upgrade express dep from 4.18.1 to 4.19.2 due to a vulnerability
+- Upgrade iotagent-node-lib dependency from 4.2.0 to 4.3.0
+
+3.3.0 (February 27th, 2024)
+
+- Add: ARGO binding
+- Add: log and return device/group information when DeviceNotFound and GroupNotFound errors (#815)
+- Fix: default attribute type changed from 'string' to 'Text' (#810)
+- Upgrade iotagent-node-lib dependency from 4.2.0 to 4.3.0
+
+3.2.0 (January 30th, 2024)
+
+- Fix: include entity id and entity type as measure_id and measure_type at CB when measure is an ngsi (both NGSIv2 and NGSI-LD) payload
+- Upgrade iotagent-node-lib dependency from 4.1.0 to 4.2.0
+
+3.1.0 (January 8th, 2024)
+
+- Add: check and usage endpoint and transport from Group level when commands
+- Fix: protect access to multimeasure array
+- Upgrade iotagent-node-lib dependency from 4.0.0 to 4.1.0
+
+3.0.0 (November 24th, 2023)
+
+- Add: allow to send NGSIv2 and NGSILD as measures depending on payloadType (#778)
+- Add: allow read measures in application/soap+xml content-type (#759)
+- Fix: binary data representation when sending data through HTTP & MQTT (#690)
+- Fix: ensure service and subservice from device in logs about error proccesing message
+- Upgrade iotagent-node-lib dependency from 3.4.0 to 4.0.0
+- Remove: legacy code about unused parsedMessageError flag
+
+2.4.0 (Sep 20th, 2023)
+
+- Fix: try to use apikey from measure/group to find, update and remove device in first attempt (iota-node-lib#1426)
+- Fix: ensure device apikey in already provisioned device (iota-node-lib#1430, iota-node-lib#1435)
+- Remove: bidirectional plugin (iota-node-lib#1413)
+- Upgrade iotagent-node-lib dependency from 3.3.0 to 3.4.0 (some ngsild flows would not work as expected)
+
+2.3.0 (Aug 25th, 2023)
+
+- Fix: update tests to not create initial entity when append mode is enabled
+- Fix: update tests according new default value for appendMode
+- Fix: use 'options=upsert' when update ngsiv2 CB entities and appendMode is enabled (iotagent-node-lib#956)
+- Fix: do not propagate group config (timestamp and explicitAttrs) to autoprovisioned devices (at database level) (iotagent-node-lib#1377)
+- Fix: renamed iotagent-ul to iotagent-json in commandsPolling-test (#726)
+- Upgrade iotagent-node-lib dependency from 3.2.0 to 3.3.0
+- Remove: RPM stuff (no longer used)
+
+2.2.0 (May 23rd, 2023)
+
+- Add: support new commands payloadType "text" (for plain text) (#716)
+- Upgrade iotagent-node-lib dependency from 3.1.0 to 3.2.0
+
+2.1.0 (April 25th, 2023)
+
+- Fix: align test with fix about propagate TimeInstant to all metadata attributes when TimeInstant is provided as measure
+- Add: support to run tests with node 18
+- Upgrade iotagent-node-lib dependency from 3.0.0 to 3.1.0
+- Set Nodejs 16 as minimum version in packages.json (effectively removing Nodev14 from supported versions)
+
+2.0.0 (March 30th, 2023)
+
+- Removed plugins to align with ioagente-node-lib (v3.0) refactor
+- Align tests with iota-node-lib (v3.0) refactor
+- Upgrade iotagent-node-lib dependency from 2.25.0 to 3.0.0
+
+1.26.0 (January 24th, 2023)
+
+- Add: IOTA_MQTT_DISABLED (mqtt.disabled) and IOTA_AMQP_DISABLED (amqp.disabled) flags to disable MQTT and AMQP (#685)
+- Fix: save group apikey in device when autoprovision device (iota-node-lib#1245)
+- Upgrade iotagent-node-lib dependency from 2.24.0 to 2.25.0
+- Hardening: use pluginUtils from iota-node-lib
+- Set Nodejs 14 as minimum version in packages.json (effectively removing Nodev12 from supported versions)
+
+1.25.0 (September 2nd, 2022)
+
+- Fix: mqtt error handling was calling callback in loop (#679)
+- Upgrade iotagent-node-lib dependency from 2.23.0 to 2.24.0
+
+1.24.0 (July 21st, 2022)
+
+- Upgrade iotagent-node-lib dependency from 2.22.0 to 2.23.0
+
+1.23.0 (July 18th, 2022)
+
+- Add: allow apply expression to device http endpoint (for push commands) (#670)
+- Add: include device ID, Type, Service and SubService in context to expression push command
+- Add: allow receive single HTTP attribute measures posted to `/iot/json/attrs/<attributeName>` with different content-types `application/json`, `text/plain` and `application/octet-stream` (#661)
+- Fix: default transport used by commands and config when no defined at device level (#673)
+- Fix: do not use json parse strict for incoming http measures, commands and configuration
+- Fix: Dockerfile to include initial packages upgrade
+- Fix: Set service and subservice in logs when processing measures
+- Hardening: remove useless code in HTTP transport functions
+- Upgrade body-parser dep from 1.18.3 to 1.20.0
+- Upgrade express dep from ~4.16.4 to 4.18.1
+- Upgrade iotagent-node-lib dependency from 2.21.0 to 2.22.0
+- Upgrade NodeJS version from 14-slim to 16-slim in Dockerfile
+
+1.22.0 (April 29th, 2022)
+
+- Add: apply expression and payload transformations to commands (#634, #627)
+- Fix: ensure command QoS for MQTT is an integer
+- Fix: ensure mqtt client_id is unique between reconnections to avoid reconnection loop (#650)
+- Fix: bad mqtt measure is progressing as a multiple measure after be procesed as hex string (#642)
+- Fix: search device and group for a command using entity type when provided to proper match (iota-node-lib#1211)
+- Fix: replace git:// to https:// url for npm dependences
+- Remove: obsolete iotaJsonTester binary
+- Upgrade iotagent-node-lib dependency from 2.19.0 to 2.21.0
+- Upgrade moment dep from 2.27.0 to 2.29.2 due to security vulnerability (CVE-2022-24785)
+- Upgrade async dep from 2.6.1 to 2.6.4 due to security vulnerability (CWE-1321)
+- Upgrade MQTT dep from 3.0.0 to 4.3.7
+- Upgrade NodeJS version from 12 to 14 in Dockerfile
+
+1.21.0 (February 7th, 2022)
+
+- Add: allow to handle binary messages
+- Fix: pass parsedMessage (string not raw) to singleMeasure handler 
+- Fix: default mqtt keepalive value by conf (must be 60 instead of 0) (iota-ul#527)
+- Fix: provide device type to findConfiguration to achieve a better group match in getEffectiveApiKey (iota-node-lib#1155)
+- Fix: update polling when device is updated by adding endpoint (needs iota-node-lib >= 2.19) (#602)
+- Fix: remove preprocess stripping of explicitAttrs (iotagent-node-lib#1151)
+- Fix: add graceful shutdown listening to SIGINT (#606)
+- Fix: remove request obsolete library, using iotagent-node-lib.request instead (iotagent-node-lib#858)
+- Upgrade logops dep from 2.1.0 to 2.1.2 due to colors dependency corruption
+- Upgrade iotagent-node-lib dependency from 2.18.0 to 2.19.0
+
+1.20.0 (November 12nd, 2022)
+
+- Fix service and subservice to 'n/a' when apikey from measure is not found (needs iota-node-lib => 2.18) (#587)
+- Remove: NGSI-v1 specific behaviours (iotagent-lib#966)
+- Upgrade iotagent-node-lib dependency from 2.17.0 to 2.18.0
+
+1.19.0 (August 30th, 2021)
+
+- Add: custom JEXL transformations from config file (iotagent-node-lib#1056)
+- Fix: content-type for get command in base of accept header (#582)
+- Fix: processing configurations subscriptions in NGSIv2 (#563)
+- Fix: check access to active attribute of device before use it (#576)
+- Upgrade iotagent-node-lib dependency from 2.16.0 to 2.17.0
+- Remove: obsolete Thinking Things plugin (#573)
+
+1.18.0 (June 18th, 2021)
+
+- Add: MQTT options `clean` and `clientId` (env vars IOTA_MQTT_CLEAN and IOTA_MQTT_CLIENT_ID) (#414, #466, #497)
+- Add: list of environment variables which can be protected by Docker Secrets
+- Fix: check autoprovision flag before register device
+- Fix: missing content-type: application/json header in the request sent to device command endpoint (HTTP transport)
+- Fix: avoid raise mongo alarm when a measure is not maching a group configuration
+- Upgrade underscore dependency from 1.9.1 to 1.12.1 due to vulnerability
+- Upgrade iotagent-node-lib dependency from 2.15.0 to 2.16.0
+- Upgrade NodeJS version from 10 to 12 in Dockerfile due to Node 10 End-of-Life
+- Set Nodejs 12 as minimum version in packages.json (effectively removing Nodev10 from supported versions)
+
+1.17.0 (February 18th, 2021)
+
+- Add: Support of multimeasure for MQTT and AMQP transport (#462)
+- Fix: Set 60 seconds for default mqtt keepalive option (#413)
+- Upgrade iotagent-node-lib dependency from 2.14.0 to 2.15.0
+
+1.16.0 (November 16, 2020)
+
+- Add: use mqtt.qos and mqtt.retain values from command for command execution (#504)
+- Add: log in info level command and configuration MQTT
+- FIX: check ngsi version in configuration handler (#500)
+- Add missed global config env vars (IOTA_CONFIG_RETRIEVAL, IOTA_DEFAULT_KEY, IOTA_DEFAULT_TRANSPORT)
+- Upgrade iotagent-node-lib dependency from 2.13.0 to 2.14.0
+- Update Docker security practices (Add HEALTHCHECK, Use Anonymous User, Use two-stage build)
+
+1.15.0 (September 14th, 2020)
+
+- Add: config.mqtt.avoidLeadingSlash flag (IOTA_MQTT_AVOID_LEADING_SLASH) to avoid leading slash in MQTT
+- Add: explicitAttrs flag (in configuration and also group/device provisioning) to progress only the measures corresponding to attributes declared in attributes array (#416)
+- Fix: force finish transaction after process a device measure
+- Fix: do not intercept error about DEVICE_NOT_FOUND in findOrCreate device (iotagent-node-lib#889)
+- Fix: srv, subsrv, transaction and correlator id in logs of http binding
+- Fix: some log levels and details at bindings
+- Fix: writing of same correlator and transaction id in logs (#426).
+- Fix: error processing zero measures (#486)
+- Update codebase to use ES6
+  -  Remove JSHint and jshint overrides
+  -  Add esLint using standard tamia presets
+  -  Replace var with let/const
+  -  Fix or disable eslint errors
+- Upgrade iotagent-node-lib dependency from 2.12.0 to 2.13.0
+- Overall update of dev package dependencies
+- Set Nodejs 10 as minimum version in packages.json (effectively removing Nodev8 from supported versions)
+
+1.14.0 (April 7th, 2022)
+
+- Add: multimeasure support for HTTP transport (#391, partially)
+- Add: check response obj before use it handling http commands
+- Add: southbound HTTPS support (#472)
+- Fix: move to warn error log about device not found
+- Upgrade iotagent-node-lib dependency from 2.11.0 to 2.12.0
+- Upgrade NodeJS version from 8.16.1 to 10.19.0 in Dockerfile due to Node 8 End-of-Life
+
+1.13.0 (November 20th, 2019)
+
+- Allow use protocol ("/json") in mqtt topics subscribed by the agent (#374)
+- Use MQTT v5 shared subscriptions to avoid dupplicated messages per agent type (upgrade mqtt dep from 2.18.8 to 3.0.0). Needs MQTT v5 broker like mosquitto 1.6+
+- Use AMQP durable option in assertExchange
+- Use device apikey if exists in getEffectiveApiKey for command handling
+
+1.12.0 (November 4th, 2019)
+
+- Add: PM2_ENABLED flag to Docker
+- Fix: update default expiration device registration (ngsiv1) from 1M to 20Y
+- Fix: avoid connections to AMQP and MQTT when these transports are not included in configuration (#409)
+- Fix: check callback before use it if MQTT connection error
+- Upgrade iotagent-node-lib dependency from 2.10.0 to 2.11.0 (inclusing NGSIv2 forwarding -issue #250-, and cluster nodejs functionality)
+- Upgrade NodeJS version from 8.16.0 to 8.16.1 in Dockerfile due to security issues
+
+1.11.0 (August 13th, 2019)
+
+- Set Nodejs 8 as minimum version in packages.json (effectively removing Nodev6 from supported versions)
+- Add: Reconnect when MQTT closes connection (including mqtt retries and keepalive conf options)
+- Upgrade iotagent-node-lib dependency from 2.9.0 to 2.10.0
+
+1.10.0 (May 22nd, 2019)
+
+- Set Nodejs 6 version in packages.json (effectively removing Nodev4 as supported version)
+- Add: config.http.timeout (and associated enviroment variable IOTA_HTTP_TIMEOUT)(#152)
+- Add: config.mqtt.{cert,key,protocol,rejectUnauthorized} (and associated environment variables IOTA_MQTT_*)(#372)
+- Add: readding sinon as dev dependency (~6.1.0)
+- Upgrade NodeJS version from 8.12.0 to 8.16.0 in Dockerfile to improve security
+- Upgrade logops dependency from 1.0.8 to 2.1.0
+- Upgrade iotagent-node-lib dependency from 2.8.1 to 2.9.0
+
+1.9.0 (December 19th, 2018)
+
+- Add: use timestamp configuration from group device
+- Add: use AMQP message handler, add reconnections and error handlers
+- Add: AMQP config env vars (#297)
+- Add: npm scripts to execute tests, coverage, watch and clean
+- Add: use NodeJS 8 in Dockerfile
+- Add: use PM2 in Dockerfile (#336)
+- Fix: AMQP callback over-calling
+- Fix: check QoS option for MQTT commands
+- Fix: check retain option for MQTT commands
+- Upgrade: iotagent-node-lib dependence from 2.7.x to 2.8.1
+- Upgrade: mqtt dependence from 1.14.1 to 2.18.8
+- Upgrade: update logops dependence from 1.0.0-alpha.7 to 1.0.8
+- Upgrade: async dependence from 1.5.2 to 2.6.1
+- Upgrade: body-parser dependence from 1.15.0 to 1.18.3
+- Upgrade: express dependence from ~4.11.2 to ~4.16.4
+- Upgrade: request dependence from 2.81.0 to 2.88.0
+- Upgrade: underscore dependence from 1.8.3 to 1.9.1
+- Upgrade: dateformat dependence from 1.0.12 to 3.0.3
+- Upgrade: nock development dependence from 9.0.14 to 10.0.1
+- Upgrade: mocha development dependence from 2.4.5 to 5.2.0
+- Upgrade: should development dependence from 8.4.0 to 13.2.3
+- Upgrade: istanbul development dependence from ~0.1.34 to ~0.4.5
+- Upgrade: proxyquire development dependence from 1.7.9 to 2.1.0
+- Upgrade: moment development dependence from ~2.20.1 to ~2.22.2
+- Remove: old unused development dependencies (closure-linter-wrapper, sinon-chai, sinon, chai, grunt and grunt related modules)
+
+1.8.0 (August 6th, 2018)
+
+- Update ioagent-node-lib to 2.7.x
+- Add: allow NGSIv2 for updating active attributes at CB, through configuration based on iotagent-node-lib (#250)
+- Add: measures are sent in native JSON format when NGSIv2 is enabled (#250)
+- Add: supports NGSIv2 for device provisioning (entity creation and context registration) at CB (#250)
+- Add: unhardwire MQTT qos and retain parameters in config.js (involving new env vars IOTA_MQTT_QOS and IOTA_MQTT_RETAIN) (#279)
+- Add: momment dep to packages.json
+- Fix: parameter order for the MEASURE-001 error message (#290)
+- Fix: upgrade mqtt dep from 1.7.0 to 1.14.1
+- Using precise dependencies (~=) in packages.json
+- Remove mongodb dependence from packages.json (already in iota-node-lib)
+
+1.7.0 (February 26th, 2018)
+
+- Update ioagent-node-lib to 2.6.x
+- Allow get list of commands without sending measures (empty payload) (#256)
+- Fix: typo in logger level of ApiKey configuration (#247)
+- Fix: transport in autoprovision device depending on binding (#257)
+- Fix: defaultKey in config.js (supposely fixing #222 and #207)
+- Fix: default resource /iot/json instead of /iot/d in config and tests
+
+1.6.0 (October 18th, 2017)
+
+- FEATURE update node version to 4.8.4
+- Update MongoDB driver in order to fix NODE-818 error (#226)
+
+1.5.0 (November 10th, 2016)
+
+- Add multientity, bidirectionality and expression plugins (#184)
+- FIX Transformed data should include Metadata field (#190)
+- FIX TimeInstant in measure update makes null time update in CB (#192)
+- Poll commands not working (#194)
+- FIX IoTA JSON Timestamp parameter in measure request is ignored (#195)
+- FIX Error in http json push commands (#197)
+- FIX Missing context in logger entries (#198)
+- ADD Alarms for the Mosquitto server (#205)
+- ADD Iota Json retrieve is not working (#208)
+
+1.4.0 (September 9th, 2016)
+
+- Autoprovisioned devices omit mapped attributes (#160)
+- ADD Operations manual
+- Logger modules not being singleton cause logging inconsistencies (#173)
+- [Documentation] Reference to /iot/d instead of /iot/json (#168)

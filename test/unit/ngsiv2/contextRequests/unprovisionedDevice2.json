@@ -1,0 +1,12 @@
+{
+    "id":"TheLightType:JSON_UNPROVISIONED",
+    "type":"TheLightType",    
+  "humidity":{
+    "type": "Text",
+    "value": "33"    
+  },
+  "temperature":{
+    "type": "Text",
+    "value": "89"    
+  }
+}
