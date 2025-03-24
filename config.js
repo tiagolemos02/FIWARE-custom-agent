@@ -29,46 +29,46 @@ config.mqtt = {
     /**
      * Host where the MQTT Broker is located.
      */
-    host: 'localhost',
+    host: '192.168.68.125',
     /**
      * Port where the MQTT Broker is listening.
      */
-    port: 1883,
+    port: 8883,
 
     /**
      * protocol to use for connecting with the MQTT broker
      * (`mqtt`, `mqtts`, `tcp`, `tls`, `ws`, `wss`)
      */
-    //protocol = 'mqtt'
+    protocol: 'mqtts',
 
     /**
      * User name for the IoTAgent in the MQTT broker, if authentication is activated.
      */
-    //username: ''
+    username: 'lemos',
 
     /**
      * Password for the IoTAgent in the MQTT broker, if authentication is activated.
      */
-    //password: ''
+    password: 'tfl020302',
 
     /**
      * Set to `false` if using a self-signed certificate.
      * Beware that you are exposing yourself to man in the middle attacks
      */
-    //rejectUnauthorized: true
+    rejectUnauthorized: false, 
 
     /**
      * Path to your certification authority for MQTT binding over SSL
      */
-    //ca = <path_to_ca>
+    ca: '/etc/mosquitto/certs/mosquitto.crt',
     /**
      * Path to your private key for MQTT binding over SSL
      */
-    // key: <path_to_private_key>
+    key: '/etc/mosquitto/certs/mosquitto.key',
     /**
      * Path to your certificate for MQTT binding over SSL
      */
-    // cert: <path_to_cert>
+    cert: '/etc/mosquitto/certs/mosquitto.crt',
 
     /**
      * QoS Level: at most once (0), at least once (1), exactly once (2). (default is 2).
