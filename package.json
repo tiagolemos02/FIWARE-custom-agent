@@ -68,7 +68,7 @@
     "body-parser-xml": "2.0.5",
     "dateformat": "3.0.3",
     "express": "4.21.2",
-    "iotagent-node-lib": "https://github.com/telefonicaid/iotagent-node-lib.git#master",
+    "iotagent-node-lib": "https://github.com/telefonicaid/iotagent-node-lib/archive/78ad1289f5b4b3c1b611cae07d295f091e04788b.tar.gz",
     "logops": "2.1.2",
     "mqtt": "4.3.7",
     "sinon": "~6.1.0",

@@ -77,7 +77,7 @@ Control messages (`config`, `cmd`, and `cmdexe`) are not coalesced.
 
 ## Docker build
 
-`../docker/Dockerfile` now builds the checked-out repository instead of downloading a GitHub branch. It uses the explicit `node:16.20.2-bullseye` and `node:16.20.2-bullseye-slim` bases and pins `iotagent-node-lib` to commit `78ad1289f5b4b3c1b611cae07d295f091e04788b`. The dependency is installed from that commit's GitHub tarball, so the builder does not need `git` or `apt-get`.
+`../docker/Dockerfile` now builds the checked-out repository instead of downloading a GitHub branch. It uses the explicit `node:16.20.2-bullseye` and `node:16.20.2-bullseye-slim` bases and pins `iotagent-node-lib` to commit `78ad1289f5b4b3c1b611cae07d295f091e04788b`. The same immutable tarball URL is stored in the repository `package.json`, so local development, GitHub Actions, and Docker resolve the compatible `4.7.0-next` library instead of the moving `master` branch. Installing the tarball does not require `git` or `apt-get`.
 
 Run the Docker build only from the complete custom-agent repository root, using the Dockerfile in `docker/`. The partial copy in this project is a transfer workspace and does not contain the complete upstream repository.
 
