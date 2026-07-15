@@ -75,6 +75,18 @@ Control messages (`config`, `cmd`, and `cmdexe`) are not coalesced.
 | `IOTA_MQTT_QUEUE_LOG_INTERVAL_MS` | `60000` | Queue statistics log interval |
 | `IOTA_MQTT_SHUTDOWN_TIMEOUT_MS` | `5000` | Maximum queue drain time during shutdown |
 
+## Runtime configuration safety
+
+The repository `config.js` now contains environment-neutral defaults: plain MQTT on `localhost:1883`, no embedded
+broker credentials or certificate paths, and AMQP disabled. Docker deployments must supply environment-specific
+connection details. The Digital Twin Compose file explicitly selects `mqtt` and disables AMQP because its Mosquitto
+service listens on port `1883` without TLS and no AMQP broker is deployed.
+
+MTEXNS state topics use `<deviceId>/state/<attribute>` and therefore contain no API key. An empty API key now performs
+a global lookup for exactly one already provisioned Device ID. It never enters the IoT Agent `findOrCreate` path; this
+prevents a second empty device from being created in the default `openiot` service and preserves the provisioned
+service, subservice, entity name, attributes and types.
+
 ## Docker build
 
 `../docker/Dockerfile` now builds the checked-out repository instead of downloading a GitHub branch. It uses the explicit `node:16.20.2-bullseye` and `node:16.20.2-bullseye-slim` bases and pins `iotagent-node-lib` to commit `78ad1289f5b4b3c1b611cae07d295f091e04788b`. The same immutable tarball URL is stored in the repository `package.json`, so local development, GitHub Actions, and Docker resolve the compatible `4.7.0-next` library instead of the moving `master` branch. Installing the tarball does not require `git` or `apt-get`.
