@@ -107,52 +107,28 @@ in the IoT Agent for JSON
 
 ## How to build an image
 
-The [Dockerfile](https://github.com/telefonicaid/iotagent-json/blob/master/docker/Dockerfile) associated with this image
-can be used to build an image in several ways:
+The MTEXNS Dockerfile builds the source currently checked out in the custom-agent repository. It does not download
+`master`, a release archive, or another remote branch during the build. This makes the image correspond to the code
+that was reviewed.
 
--   By default, the `Dockerfile` retrieves the **latest** version of the codebase direct from GitHub (the `build-arg` is
-    optional):
-
-```console
-docker build -t iot-agent . --build-arg DOWNLOAD=latest
-```
-
--   You can alter this to obtain the last **stable** release run this `Dockerfile` with the build argument
-    `DOWNLOAD=stable`
+Run the build from the root of the complete `FIWARE-custom-agent` repository:
 
 ```console
-docker build -t iot-agent . --build-arg DOWNLOAD=stable
+docker build --file docker/Dockerfile --target slim --tag lemostiago/custom-iotagent:3.7.1-mtexns .
 ```
 
--   You can also download a specific release by running this `Dockerfile` with the build argument `DOWNLOAD=<version>`
+The direct `iotagent-node-lib` dependency is pinned by default to commit
+`78ad1289f5b4b3c1b611cae07d295f091e04788b`, which is compatible with the retained Node 16 runtime. An intentional
+alternative can be supplied explicitly:
 
 ```console
-docker build -t iot-agent . --build-arg DOWNLOAD=1.7.0
+docker build --file docker/Dockerfile --target slim \
+    --build-arg IOTA_NODE_LIB_COMMIT=<reviewed-commit-sha> \
+    --tag lemostiago/custom-iotagent:3.7.1-mtexns .
 ```
 
-## Building from your own fork
-
-To download code from your own fork of the GitHub repository add the `GITHUB_ACCOUNT`, `GITHUB_REPOSITORY` and
-`SOURCE_BRANCH` arguments (default `master`) to the `docker build` command.
-
-```console
-docker build -t iot-agent . \
-    --build-arg GITHUB_ACCOUNT=<your account> \
-    --build-arg GITHUB_REPOSITORY=<your repo> \
-    --build-arg SOURCE_BRANCH=<your branch> \
-    --target=distroless|pm2|slim
-```
-
-## Building from your own source files
-
-Alternatively, if you want to build directly from your own sources, please copy the existing `Dockerfile` into file the
-root of the repository and amend it to copy over your local source using :
-
-```Dockerfile
-COPY . /opt/iotajson/
-```
-
-Full instructions can be found within the `Dockerfile` itself.
+Do not build from the partial transfer copy stored in the Digital Twin project. Transfer the changed files into the
+complete custom-agent repository first, then run its unit tests and build the image.
 
 ### Using PM2 /Distroless
 
