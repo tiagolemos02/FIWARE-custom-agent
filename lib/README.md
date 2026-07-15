@@ -59,6 +59,7 @@ Control messages (`config`, `cmd`, and `cmdexe`) are not coalesced.
 - `telemetryNormalizer.js`: pure bounded-metric conversion and limit cache.
 - `telemetryQueue.js`: bounded per-machine work scheduler.
 - `warningLimiter.js`: size-limited warning rate limiter.
+- `deviceDiscovery.js`: bounded, service-group-neutral registry of Device IDs observed on MQTT.
 - `configService.js`: environment configuration for the new limits.
 - `constants.js`: safe defaults.
 - `commandHandler.js`: optional completion callback so queue work has a reliable end signal.
@@ -74,6 +75,8 @@ Control messages (`config`, `cmd`, and `cmdexe`) are not coalesced.
 | `IOTA_MQTT_WARNING_INTERVAL_MS` | `300000` | Minimum interval between equal warnings |
 | `IOTA_MQTT_QUEUE_LOG_INTERVAL_MS` | `60000` | Queue statistics log interval |
 | `IOTA_MQTT_SHUTDOWN_TIMEOUT_MS` | `5000` | Maximum queue drain time during shutdown |
+| `IOTA_MQTT_DISCOVERY_TTL_MS` | `3600000` | Time an unprovisioned MQTT Device ID remains discoverable |
+| `IOTA_MQTT_DISCOVERY_MAX_ENTRIES` | `1000` | Maximum unprovisioned Device IDs retained in memory |
 
 ## Runtime configuration safety
 
@@ -82,10 +85,15 @@ broker credentials or certificate paths, and AMQP disabled. Docker deployments m
 connection details. The Digital Twin Compose file explicitly selects `mqtt` and disables AMQP because its Mosquitto
 service listens on port `1883` without TLS and no AMQP broker is deployed.
 
-MTEXNS state topics use `<deviceId>/state/<attribute>` and therefore contain no API key. An empty API key now performs
-a global lookup for exactly one already provisioned Device ID. It never enters the IoT Agent `findOrCreate` path; this
-prevents a second empty device from being created in the default `openiot` service and preserves the provisioned
-service, subservice, entity name, attributes and types.
+MTEXNS state topics use `<deviceId>/state/<attribute>` and therefore contain no API key. An empty API key performs a
+global lookup for exactly one Device ID. Existing devices keep their provisioned service, subservice, entity name,
+attributes and types. Multiple global matches are rejected because a keyless topic cannot determine which FIWARE
+context owns the Device ID.
+
+Unknown IDs are recorded in a bounded, one-hour discovery registry instead of being auto-provisioned into an arbitrary
+service group. The portal lists these neutral IDs under **Available Device IDs** for every service-group selection. The
+operator chooses the correct group and explicitly saves the machine; only then does normal telemetry ingestion begin.
+This supports `/iot/json` and any other registered resource without changing the machine topic contract.
 
 ## Docker build
 

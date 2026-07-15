@@ -61,4 +61,82 @@ describe('MTEXNS MQTT runtime regression', function () {
             done();
         });
     });
+
+    it('leaves an unknown no-key Device ID unprovisioned without logging an API key error', function (done) {
+        const logMessages = [];
+        let configurationLookupCalled = false;
+        const iotAgentLib = {
+            getDevicesByAttribute(attribute, value, service, subservice, callback) {
+                callback(null, []);
+            },
+            getConfigurationSilently(resource, apiKey, callback) {
+                configurationLookupCalled = true;
+                callback(new Error(`Unexpected configuration lookup for ${resource}:${apiKey}`));
+            }
+        };
+        const iotaUtils = proxyquire('../../lib/iotaUtils', {
+            'iotagent-node-lib': iotAgentLib,
+            './configService': {
+                getConfig() {
+                    return {
+                        defaultKey: '1234',
+                        iota: { defaultResource: '/iot/json' }
+                    };
+                },
+                getLogger() {
+                    return {
+                        debug() {},
+                        error(loggerContext, message) {
+                            logMessages.push(message);
+                        }
+                    };
+                }
+            }
+        });
+
+        iotaUtils.retrieveDevice('machine-2', '', function (error, device) {
+            assert(error);
+            assert.strictEqual(error.name, 'DEVICE_NOT_FOUND');
+            assert.strictEqual(device, undefined);
+            assert.strictEqual(configurationLookupCalled, false);
+            assert.deepStrictEqual(logMessages, []);
+            done();
+        });
+    });
+
+    it('reports duplicate no-key Device IDs as ambiguous without mentioning an API key', function (done) {
+        const logMessages = [];
+        const iotAgentLib = {
+            getDevicesByAttribute(attribute, value, service, subservice, callback) {
+                callback(null, [{ id: 'duplicate' }, { id: 'duplicate' }]);
+            }
+        };
+        const iotaUtils = proxyquire('../../lib/iotaUtils', {
+            'iotagent-node-lib': iotAgentLib,
+            './configService': {
+                getConfig() {
+                    return {
+                        defaultKey: '1234',
+                        iota: { defaultResource: '/iot/json' }
+                    };
+                },
+                getLogger() {
+                    return {
+                        debug() {},
+                        error(loggerContext, message) {
+                            logMessages.push(message);
+                        }
+                    };
+                }
+            }
+        });
+
+        iotaUtils.retrieveDevice('duplicate', '', function (error) {
+            assert(error);
+            assert.strictEqual(error.name, 'AMBIGUOUS_DEVICE');
+            assert(logMessages.some((message) => message.includes('DeviceId %s is ambiguous')));
+            assert(logMessages.every((message) => !message.includes('APIKey')));
+            done();
+        });
+    });
 });
