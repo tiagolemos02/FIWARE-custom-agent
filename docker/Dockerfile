@@ -19,7 +19,9 @@
 # For those usages not covered by the GNU Affero General Public License
 # please contact with: [daniel.moranjimenez@telefonica.com]
 
-ARG NODE_VERSION=16
+ARG NODE_VERSION=16.20.2
+ARG NODE_DEBIAN_SUITE=bullseye
+ARG DISTROLESS_NODE_VERSION=16
 ARG GITHUB_ACCOUNT=tiagolemos02
 ARG GITHUB_REPOSITORY=FIWARE-custom-agent
 ARG IOTA_NODE_LIB_COMMIT=78ad1289f5b4b3c1b611cae07d295f091e04788b
@@ -30,26 +32,17 @@ ARG IOTA_NODE_LIB_COMMIT=78ad1289f5b4b3c1b611cae07d295f091e04788b
 # local build from silently downloading a different branch than the code under review.
 #
 ######################################################################################## 
-FROM node:${NODE_VERSION} AS builder
+FROM node:${NODE_VERSION}-${NODE_DEBIAN_SUITE} AS builder
 ARG IOTA_NODE_LIB_COMMIT
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 WORKDIR /opt/iotagent-json
 COPY . /opt/iotagent-json
 
-# hadolint ignore=DL3008
 RUN \
-	# Ensure that Git is installed prior to running npm install
-	apt-get update -y && \
-	apt-get install -y --no-install-recommends git && \
 	echo "INFO: pinning iotagent-node-lib and installing production dependencies..." && \
-	npm pkg set "dependencies.iotagent-node-lib=https://github.com/telefonicaid/iotagent-node-lib.git#${IOTA_NODE_LIB_COMMIT}" && \
-	npm install --only=prod --no-optional && \
-	# Remove Git and clean apt cache
-	apt-get clean && \
-	apt-get remove -y git && \
-	apt-get -y autoremove && \
-	rm -rf /var/lib/apt/lists/*
+	npm pkg set "dependencies.iotagent-node-lib=https://github.com/telefonicaid/iotagent-node-lib/archive/${IOTA_NODE_LIB_COMMIT}.tar.gz" && \
+	npm install --only=prod --no-optional
 
 ########################################################################################
 #
@@ -60,7 +53,7 @@ RUN \
 # --target=pm2-install
 #
 ########################################################################################
-FROM node:${NODE_VERSION}-slim AS pm2
+FROM node:${NODE_VERSION}-${NODE_DEBIAN_SUITE}-slim AS pm2
 ARG GITHUB_ACCOUNT
 ARG GITHUB_REPOSITORY
 ARG NODE_VERSION
@@ -90,7 +83,7 @@ CMD ["pm2-runtime", "/opt/iotagent-json/bin/iotagent-json", "-- ", "config.js"]
 # as defined below.
 #
 ########################################################################################
-FROM node:${NODE_VERSION} AS anon-user
+FROM node:${NODE_VERSION}-${NODE_DEBIAN_SUITE} AS anon-user
 RUN sed -i -r "/^(root|nobody)/!d" /etc/passwd /etc/shadow /etc/group \
     && sed -i -r 's#^(.*):[^:]*$#\1:/sbin/nologin#' /etc/passwd
 
@@ -106,7 +99,7 @@ RUN sed -i -r "/^(root|nobody)/!d" /etc/passwd /etc/shadow /etc/group \
 # - IOTA_AUTH_CLIENT_ID, IOTA_AUTH_CLIENT_SECRET - when using OAuth2 Security
 #
 ########################################################################################
-FROM gcr.io/distroless/nodejs:${NODE_VERSION} AS distroless
+FROM gcr.io/distroless/nodejs:${DISTROLESS_NODE_VERSION} AS distroless
 ARG GITHUB_ACCOUNT
 ARG GITHUB_REPOSITORY
 ARG NODE_VERSION
@@ -146,7 +139,7 @@ HEALTHCHECK  --interval=30s --timeout=3s --start-period=10s \
 # - IOTA_AUTH_CLIENT_ID, IOTA_AUTH_CLIENT_SECRET - when using OAuth2 Security
 #
 ########################################################################################
-FROM node:${NODE_VERSION}-slim AS slim
+FROM node:${NODE_VERSION}-${NODE_DEBIAN_SUITE}-slim AS slim
 ARG GITHUB_ACCOUNT
 ARG GITHUB_REPOSITORY
 ARG NODE_VERSION

@@ -117,9 +117,10 @@ Run the build from the root of the complete `FIWARE-custom-agent` repository:
 docker build --file docker/Dockerfile --target slim --tag lemostiago/custom-iotagent:3.7.1-mtexns .
 ```
 
-The direct `iotagent-node-lib` dependency is pinned by default to commit
-`78ad1289f5b4b3c1b611cae07d295f091e04788b`, which is compatible with the retained Node 16 runtime. An intentional
-alternative can be supplied explicitly:
+The build and slim runtime use the explicit `node:16.20.2-bullseye` variants instead of the obsolete Buster-based
+floating Node 16 image. The direct `iotagent-node-lib` dependency is installed from the GitHub tarball for commit
+`78ad1289f5b4b3c1b611cae07d295f091e04788b`; this avoids installing `git` through `apt-get`. An intentional alternative
+can be supplied explicitly:
 
 ```console
 docker build --file docker/Dockerfile --target slim \
